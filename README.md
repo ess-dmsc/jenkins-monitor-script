@@ -1,3 +1,5 @@
+# jenkins-monitor-script
+
 The following lines are run when the window manager has started up:
 
 ```

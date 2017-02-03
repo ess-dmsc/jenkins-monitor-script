@@ -1,5 +1,7 @@
 # jenkins-monitor-script
 
+If you want the disk image used to run the monitor, get in contact with me.
+
 The following lines are run when the window manager has started up:
 
 ```

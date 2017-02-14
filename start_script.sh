@@ -5,4 +5,4 @@
 #DISPLAY=:0.0 firefox -private -url https://jenkins.esss.dk/dm/view/Monitor%20view/
 
 rm geckodriver.log
-python browser_ctrl.py
+python /home/pi/raspberry-pi-script/browser_ctrl.py

@@ -14,10 +14,11 @@ profile.set_preference("extensions.hidtb.auto_hide", True)
 profile.set_preference("extensions.hidtb.auto_hide_one_tab", True)
 profile.set_preference("hidenavbar.autohide", True)
 profile.set_preference("hidenavbar.hideonstart", 1)
-driver = webdriver.Firefox(profile, timeout = 600)
+driver = webdriver.Firefox(profile, timeout = 100)
 driver.maximize_window()
 
 list_of_sites = []
+list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam01/latest.jpg", 5])
 list_of_sites.append(["http://skytoground.org/spanish.html", 7])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Monitor%20view/", 90])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam01/latest.jpg", 5])
@@ -28,7 +29,7 @@ list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam03/latest.jpg", 5])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Monitor%20view/", 90])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam04/latest.jpg", 5])
 
-driver.set_page_load_timeout(25)
+driver.set_page_load_timeout(15)
 while (True):
     for site in list_of_sites:
         try:

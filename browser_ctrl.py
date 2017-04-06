@@ -21,12 +21,16 @@ list_of_sites = []
 list_of_sites.append(["http://skytoground.org/spanish.html", 7])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Monitor%20view/", 90])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam01/latest.jpg", 5])
+list_of_sites.append(["http://skytoground.org/score_card.html", 20])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Monitor%20view/", 90])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam02/latest.jpg", 5])
+list_of_sites.append(["http://skytoground.org/score_card.html", 20])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Monitor%20view/", 90])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam03/latest.jpg", 5])
+list_of_sites.append(["http://skytoground.org/score_card.html", 20])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Monitor%20view/", 90])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam04/latest.jpg", 5])
+list_of_sites.append(["http://skytoground.org/score_card.html", 20])
 
 driver.set_page_load_timeout(15)
 while (True):

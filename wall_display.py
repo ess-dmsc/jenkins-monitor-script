@@ -66,7 +66,7 @@ launch("https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=
 
 try:
    while True:
-      time.sleep(10)
+      time.sleep(180)
       for x in drivers:
          drv = x[0]
          url = x[1]

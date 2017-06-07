@@ -10,9 +10,9 @@ import sys          # sys.argv, sys.exit
 import getpass      # getpass.getpass
 
 class wallDisplay(object):
-
     def __init__(self):
         self.drivers = []
+        self.groups = []
 
     def login(self, driver, nuser, npass, tuser, tpass):
        try:
@@ -28,6 +28,29 @@ class wallDisplay(object):
        password.send_keys(Keys.CLEAR)
        password.send_keys(tpass)
        password.send_keys(Keys.RETURN)
+
+    def register(self, group, url, refreshNeeded, nusr, tusr, npwd, tpwd):
+        pos = 0
+        for g in self.groups:
+            if group == g[0]:
+                pos = pos + 1
+        self.groups.append([group, pos, url, refreshNeeded, nusr, tusr, npwd, tpwd])
+
+    # @todo currently only works for a single group and up to four windows
+    def pos2xy(self, pos):
+        if pos == 0:
+            return [2000, 0]
+        elif pos == 1:
+            return [4000, 0]
+        elif pos == 2:
+            return [2000, 1050]
+        elif pos == 3:
+            return [4000, 1050]
+
+    def launch2(self):
+        for g, pos, url, ref, nu, tu, np, tp in self.groups:
+            x,y = self.pos2xy(pos)
+            self.launch(url, x, y, ref, nu, tu, np, tp)
 
 
     def launch(self, url, x, y, refreshNeeded, nusr, tusr, npwd, tpwd):
@@ -87,11 +110,12 @@ def main():
     #os.environ["DISPLAY"] = ":10.0"
     os.environ["DISPLAY"] = ":0.0"
 
-    walldisp.launch("http://status.esss.se",     2000,    0, 1, "", "", "", "")
-    walldisp.launch("http://jenkins.esss.dk/dm", 4000,    0, 1, "", "", "", "")
-    walldisp.launch("http://127.0.0.1:3000",     2000, 1100, 0, "username", "admin", "password", "admin")
-    walldisp.launch("https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 4000, 1100, 1, "UserName", user, "Password", paswd)
+    walldisp.register(0, "http://status.esss.se",      1, "", "", "", "")
+    walldisp.register(0, "http://jenkins.esss.dk/dm",  1, "", "", "", "")
+    walldisp.register(0, "http://127.0.0.1:3000",      0, "username", "admin", "password", "admin")
+    walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 1, "UserName", user, "Password", paswd)
 
+    walldisp.launch2()
     walldisp.updateloop(180)
 
 if __name__ == "__main__":

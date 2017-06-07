@@ -12,7 +12,7 @@ import getpass      # getpass.getpass
 class wallDisplay(object):
 
     def __init__(self):
-        drivers = []
+        self.drivers = []
 
     def login(self, driver, nuser, npass, tuser, tpass):
        try:
@@ -20,8 +20,7 @@ class wallDisplay(object):
           password = driver.find_element_by_name(npass)
        except Exception:
           print("find_element_by_name failed")
-          driver.close()
-          sys.exit()
+          return
 
        username.send_keys(Keys.CLEAR)
        username.send_keys(tuser)
@@ -48,26 +47,30 @@ class wallDisplay(object):
           driver.get(url)
        except Exception:
           driver.close()
-          sys.exit()
 
-       drivers.append([driver, url, refreshNeeded])
+       self.drivers.append([driver, url, refreshNeeded])
        if nusr != "":
-          login(driver, nusr, npwd, tusr, tpwd)
+          self.login(driver, nusr, npwd, tusr, tpwd)
 
 
     def updateloop(self, updint):
         try:
            while True:
               time.sleep(updint)
-              for x in drivers:
+              for x in self.drivers:
                  drv = x[0]
                  url = x[1]
                  ref = x[2]
                  if ref:
                     drv.get(url)
         except Exception:
-           for x in drivers:
-              x[0].close()
+            self.exit()
+
+
+    def exit(self):
+        for x in self.drivers:
+           x[0].close(0)
+        sys.exit(0)
 
 # ------------------------------------------------------------------------------------------------
 def main():
@@ -84,12 +87,12 @@ def main():
     #os.environ["DISPLAY"] = ":10.0"
     os.environ["DISPLAY"] = ":0.0"
 
-    launch("http://status.esss.se",     2000,    0, 1, "", "", "", "")
-    launch("http://jenkins.esss.dk/dm", 4000,    0, 1, "", "", "", "")
-    launch("http://172.17.5.35:3000/dashboard/db/detector-activity",   2000, 1000, 0, "username", "admin", "password", "admin")
-    launch("https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 4000, 1000, 1, "UserName", user, "Password", paswd)
+    walldisp.launch("http://status.esss.se",     2000,    0, 1, "", "", "", "")
+    walldisp.launch("http://jenkins.esss.dk/dm", 4000,    0, 1, "", "", "", "")
+    walldisp.launch("http://127.0.0.1:3000",     2000, 1100, 0, "username", "admin", "password", "admin")
+    walldisp.launch("https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 4000, 1100, 1, "UserName", user, "Password", paswd)
 
-    updateloop(180)
+    walldisp.updateloop(180)
 
 if __name__ == "__main__":
     main()

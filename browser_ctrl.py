@@ -6,7 +6,7 @@ import os
 import time
 os.environ["DISPLAY"] = ":0.0"
 profile = webdriver.FirefoxProfile()
-ext_path = "ff_ext/"
+ext_path = "/home/pi/ff_ext/"
 #ext_path = "/Users/jonasnilsson/FF_ext/"
 profile.add_extension(extension=ext_path + "hide_tabbar-2.1.0-fx.xpi")
 profile.add_extension(extension=ext_path + "hidenavbar.xpi")

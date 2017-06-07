@@ -13,6 +13,7 @@ class wallDisplay(object):
 
     def __init__(self):
         drivers = []
+        groups = []
 
     def login(self, driver, nuser, npass, tuser, tpass):
        try:
@@ -29,6 +30,16 @@ class wallDisplay(object):
        password.send_keys(Keys.CLEAR)
        password.send_keys(tpass)
        password.send_keys(Keys.RETURN)
+
+
+
+    def register(self, group, url, refreshNeeded, nusr, tusr, npwd, tpwd):
+        pos = 0
+        for g in groups:
+            if group == g[0]:
+                print(g)
+                pos = pos + 1
+                groups.append(group, pos, refreshNeeded, nusr, tusr, npwd, tpwd)
 
 
     def launch(self, url, x, y, refreshNeeded, nusr, tusr, npwd, tpwd):
@@ -84,12 +95,15 @@ def main():
     #os.environ["DISPLAY"] = ":10.0"
     os.environ["DISPLAY"] = ":0.0"
 
-    launch("http://status.esss.se",     2000,    0, 1, "", "", "", "")
-    launch("http://jenkins.esss.dk/dm", 4000,    0, 1, "", "", "", "")
-    launch("http://172.17.5.35:3000/dashboard/db/detector-activity",   2000, 1000, 0, "username", "admin", "password", "admin")
-    launch("https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 4000, 1000, 1, "UserName", user, "Password", paswd)
+    walldisp.register(0, "http://status.esss.se",     2000,    0, 1, "", "", "", "")
+    walldisp.register(0, "http://jenkins.esss.dk/dm", 4000,    0, 1, "", "", "", "")
+    walldisp.register(0, "http://172.17.5.35:3000/dashboard/db/detector-activity",   2000, 1000, 0, "username", "admin", "password", "admin")
+    walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 4000, 1000, 1, "UserName", user, "Password", paswd)
 
-    updateloop(180)
+    for g in walldisp.groups:
+        print(g)
+
+    #updateloop(180)
 
 if __name__ == "__main__":
     main()

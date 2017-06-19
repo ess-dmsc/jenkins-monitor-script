@@ -10,8 +10,42 @@ import sys          # sys.argv, sys.exit
 import getpass      # getpass.getpass
 
 class wallDisplay(object):
-    def __init__(self):
+    def __init__(self, xo, yo, w, h):
         self.groups = {}
+        self.xo = xo
+        self.yo = yo
+        self.w = w
+        self.h = h
+
+    def pos2xy(self, n, max):
+        if max < 1 or max > 8:
+            return ""
+        if n > max or n < 1:
+            return ""
+
+        w = self.w
+        h = self.h
+        xo = self.xo
+        yo = self.yo
+
+        if max == 1:
+            d = 1
+        elif max == 2:
+            w = w/2
+            d = 2
+        elif max == 3 or max == 4:
+            w = w/2
+            h = h/2
+            d = 2
+        elif max == 5 or max == 6:
+            w = w/3
+            h = h/2
+            d = 3
+        elif max == 7 or max == 8:
+            w = w/4
+            h = h/2
+            d = 4
+        return [xo + ((n-1)%d)*w, yo + ((n-1)/d)*h, w, h]
 
     def login(self, driver, nuser, npass, tuser, tpass):
         try:
@@ -32,18 +66,6 @@ class wallDisplay(object):
             self.groups[group] = []
         self.groups[group].append([url, refreshNeeded, nusr, tusr, npwd, tpwd])
 
-    # @todo currently only works for a single group and up to four windows
-    def pos2xy(self, pos, n):
-        print("pos %d, n %d, x %d\n" % (pos, n, pos%(n/2)))
-
-        if pos == 0:
-            return [2000,    0, 2000, 1000]
-        elif pos == 1:
-            return [4000,    0, 2000, 1000]
-        elif pos == 2:
-            return [2000, 1075, 2000, 1000]
-        elif pos == 3:
-            return [4000, 1075, 2000, 1000]
 
     def launch(self):
         for g in self.groups:
@@ -98,7 +120,7 @@ def main():
        print("usage: wall_display.py username")
        sys.exit(0)
 
-    walldisp = wallDisplay()
+    walldisp = wallDisplay(2000, 0, 4000, 2150)
 
     user=sys.argv[1]
     print("please enter password for user " + user)

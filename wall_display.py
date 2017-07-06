@@ -133,13 +133,14 @@ def main():
     #os.environ["DISPLAY"] = ":10.0"
     os.environ["DISPLAY"] = ":0.0"
 
-    walldisp.register(0, "https://jenkins.esss.dk/dm/view/Monitor%20view/",      1, "", "", "", "")
-    walldisp.register(0, "https://jenkins.esss.dk/dm/view/ess-dmsc%20master/",      1, "", "", "", "")
-    walldisp.register(0, "http://jenkins.esss.dk/dm",  1, "", "", "", "")
+    walldisp.register(0, "https://jenkins.esss.dk/dm/view/Monitor%20view/",      0, "", "", "", "")
+    #walldisp.register(0, "https://jenkins.esss.dk/dm/view/ess-dmsc%20master/",      1, "", "", "", "")
+    walldisp.register(0, "https://172.17.0.242:9000",      1, "", "", "", "")
+    #walldisp.register(0, "http://jenkins.esss.dk/dm",  1, "", "", "", "")
     walldisp.register(0, "https://github.com/orgs/ess-dmsc/dashboard",  1, "", "", "", "")
     walldisp.register(0, "http://status.esss.se",      1, "", "", "", "")
     walldisp.register(0, "http://127.0.0.1:3000",      0, "username", "admin", "password", "admin")
-    #walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 1, "UserName", user, "Password", paswd)
+    walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 1, "UserName", user, "Password", paswd)
 
     walldisp.launch()
     print("Entering main loop")

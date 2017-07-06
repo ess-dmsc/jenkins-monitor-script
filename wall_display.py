@@ -49,18 +49,18 @@ class wallDisplay(object):
             d = 4
         return [xo + ((n - 1) % d) * w, yo + ((n - 1) / d) * h, w - 25 , h - 75]
 
-    def login(self, driver, nuser, npass, tuser, tpass):
+    def login(self, driver, user_xpath, pass_xpath, user_text, pass_text):
         try:
-            username = driver.find_element_by_name(nuser)
-            password = driver.find_element_by_name(npass)
+            username = driver.find_element_by_xpath(user_xpath)
+            password = driver.find_element_by_xpath(pass_xpath)
         except Exception:
-            print("find_element_by_name failed")
+            print("find_element_by_xpath failed")
             return
 
         username.send_keys(Keys.CLEAR)
-        username.send_keys(tuser)
+        username.send_keys(user_text)
         password.send_keys(Keys.CLEAR)
-        password.send_keys(tpass)
+        password.send_keys(pass_text)
         password.send_keys(Keys.RETURN)
 
     def register(self, group, url, refreshNeeded, nusr, tusr, npwd, tpwd):
@@ -136,9 +136,9 @@ def main():
     walldisp.register(0, "https://jenkins.esss.dk/dm/view/Monitor%20view/",      1, "", "", "", "")
     walldisp.register(0, "https://jenkins.esss.dk/dm/view/ess-dmsc%20master/",      1, "", "", "", "")
     walldisp.register(0, "http://jenkins.esss.dk/dm",  1, "", "", "", "")
-    walldisp.register(0, "https://github.com/orgs/ess-dmsc/dashboard",  1, "", "", "", "")
+    walldisp.register(0, "https://github.com/orgs/ess-dmsc/dashboard",  1, "//input[@name='login']", "mortenjc", "//input[@name='password']", "xxxxxx")
     walldisp.register(0, "http://status.esss.se",      1, "", "", "", "")
-    walldisp.register(0, "http://127.0.0.1:3000",      0, "username", "admin", "password", "admin")
+    walldisp.register(0, "http://127.0.0.1:3000",      0, "//input[@name='login']", "admin", "//input[@name='password']", "admin")
     #walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 1, "UserName", user, "Password", paswd)
 
     walldisp.launch()

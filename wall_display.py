@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+chrome = 1
+
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 
@@ -53,15 +55,26 @@ class wallDisplay(object):
         try:
             username = driver.find_element_by_xpath(user_xpath)
             password = driver.find_element_by_xpath(pass_xpath)
-        except Exception:
+            username.send_keys(Keys.CLEAR)
+            username.send_keys(user_text)
+            password.send_keys(Keys.CLEAR)
+            password.send_keys(pass_text)
+            password.send_keys(Keys.RETURN)
+        except:
             print("find_element_by_xpath failed")
-            return
+            try:
+                username = driver.find_element_by_xpath(user_xpath)
+                password = driver.find_element_by_xpath(pass_xpath)
+                username.send_keys(Keys.CLEAR)
+                username.send_keys(user_text)
+                password.send_keys(Keys.CLEAR)
+                password.send_keys(pass_text)
+                password.send_keys(Keys.RETURN)
+            except Exception:
+                print("find_element_by_xpath failed twice")
+                return
 
-        username.send_keys(Keys.CLEAR)
-        username.send_keys(user_text)
-        password.send_keys(Keys.CLEAR)
-        password.send_keys(pass_text)
-        password.send_keys(Keys.RETURN)
+
 
     def register(self, group, url, refreshNeeded, nusr, tusr, npwd, tpwd):
         if not group in self.groups:
@@ -79,16 +92,19 @@ class wallDisplay(object):
                 view.append(drv)
 
     def weblaunch(self, x, y, w, h, url, refreshNeeded, nusr, tusr, npwd, tpwd):
-       profile = webdriver.FirefoxProfile()
-       ext_path = "ff_ext/"
-       profile.add_extension(extension=ext_path + "hide_tabbar-2.1.0-fx.xpi")
-       profile.add_extension(extension=ext_path + "hidenavbar.xpi")
-       profile.set_preference("extensions.hidtb.auto_hide", True)
-       profile.set_preference("extensions.hidtb.auto_hide_one_tab", True)
-       profile.set_preference("hidenavbar.autohide", True)
-       profile.set_preference("hidenavbar.hideonstart", 1)
+       if chrome:
+          driver = webdriver.Chrome()
+       else:
+          profile = webdriver.FirefoxProfile()
+          ext_path = "ff_ext/"
+          profile.add_extension(extension=ext_path + "hide_tabbar-2.1.0-fx.xpi")
+          profile.add_extension(extension=ext_path + "hidenavbar.xpi")
+          profile.set_preference("extensions.hidtb.auto_hide", True)
+          profile.set_preference("extensions.hidtb.auto_hide_one_tab", True)
+          profile.set_preference("hidenavbar.autohide", True)
+          profile.set_preference("hidenavbar.hideonstart", 1)
+          driver = webdriver.Firefox(profile, timeout = 100)
 
-       driver = webdriver.Firefox(profile, timeout = 100)
        driver.set_window_position(x, y)
        driver.set_window_size(w, h)
        try:
@@ -127,21 +143,28 @@ def main():
     walldisp = wallDisplay(1990, 0, 4055, 2180)
 
     user=sys.argv[1]
-    print("please enter password for user " + user)
+    print("please enter password for ESS user " + user)
     paswd=getpass.getpass("> ")
+    print("please enter password for github user mortenjc")
+    paswd2=getpass.getpass("> ")
 
     #os.environ["DISPLAY"] = ":10.0"
     os.environ["DISPLAY"] = ":0.0"
 
-    walldisp.register(0, "https://jenkins.esss.dk/dm/view/Monitor%20view/",      1, "", "", "", "")
-    #walldisp.register(0, "https://jenkins.esss.dk/dm/view/ess-dmsc%20master/",      1, "", "", "", "")
-    walldisp.register(0, "https://172.17.0.242:9000",      1, "//input[@placeholder='Username']", "admin", "//input[@placeholder='Password']", "graylogadmin")
-    walldisp.register(0, "http://jenkins.esss.dk/dm",  1, "", "", "", "")
-    walldisp.register(0, "https://github.com/orgs/ess-dmsc/dashboard",  1, "//input[@name='login']", "mortenjc", "//input[@name='password']", "xxxxxx")
+    walldisp.register(0, "https://jenkins.esss.dk/dm/view/Monitor%20view/",
+                      0, "", "", "", "")
+    walldisp.register(0, "https://172.17.12.11:9000/search?q=&interval=week&rangetype=relative&relative=2592000",
+                      1, "//input[@placeholder='Username']", "admin", "//input[@placeholder='Password']", "graylogadmin")
+    walldisp.register(0, "https://github.com/orgs/ess-dmsc/dashboard",
+                      1, "//input[@name='login']", "mortenjc", "//input[@name='password']", paswd2)
     walldisp.register(0, "http://status.esss.se",      1, "", "", "", "")
-    walldisp.register(0, "http://127.0.0.1:3000",      0, "//input[@name='login']", "admin", "//input[@name='password']", "admin")
-    walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" , 1, "//input[@name='UserName']", user, "//input[@name='Password']", paswd)
 
+    walldisp.register(0, "https://172.17.12.31:3000/dashboard/db/new-dashboard-copy?refresh=5s&orgId=1",
+                      0, "//input[@name='login']", "admin", "//input[@name='password']", "admin")
+    walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" ,
+                      1, "//input[@name='UserName']", user, "//input[@name='Password']", paswd)
+    #walldisp.register(0, "https://jenkins.esss.dk/dm/view/ess-dmsc%20master/",      1, "", "", "", "")
+    #walldisp.register(0, "http://jenkins.esss.dk/dm",  1, "", "", "", "")
 
     walldisp.launch()
     print("Entering main loop")

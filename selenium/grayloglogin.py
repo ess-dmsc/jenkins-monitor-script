@@ -4,8 +4,15 @@ import time, sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-driver = webdriver.Chrome()
-driver.get("http://172.17.0.242:9000/search?saved=58fe2a49edd71f6c06d775f1&width=1247&rangetype=relative&fields=message%2Csource&relative=300&q=")
+chrome = 1
+
+if chrome:
+    driver = webdriver.Chrome()
+else:
+    profile = webdriver.FirefoxProfile()
+    driver = webdriver.Firefox(profile, timeout = 100)
+
+driver.get("https://172.17.12.11:9000")
 
 
 def grayloglogin():

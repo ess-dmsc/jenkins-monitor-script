@@ -12,7 +12,7 @@ else:
     profile = webdriver.FirefoxProfile()
     driver = webdriver.Firefox(profile, timeout = 100)
 
-driver.get("http://172.17.12.11:9000")
+driver.get("https://172.17.12.11:9000")
 
 
 def grayloglogin():

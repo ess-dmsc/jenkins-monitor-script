@@ -124,7 +124,6 @@ class wallDisplay(object):
                     cGroup = self.groups[g]
                     for url, refreshNeeded, nusr, tusr, npwd, tpwd, drv in cGroup:
                         if refreshNeeded:
-
                             drv.get(url)
         except Exception:
             self.exit()
@@ -160,7 +159,7 @@ def main():
     walldisp.register(0, "http://status.esss.se",      1, "", "", "", "")
 
     walldisp.register(0, "https://172.17.12.31:3000/dashboard/db/new-dashboard-copy?refresh=5s&orgId=1",
-                      0, "//input[@name='login']", "admin", "//input[@name='password']", "admin")
+                      0, "//input[@name='username']", "admin", "//input[@name='password']", "admin")
     walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" ,
                       1, "//input[@name='UserName']", user, "//input[@name='Password']", paswd)
     #walldisp.register(0, "https://jenkins.esss.dk/dm/view/ess-dmsc%20master/",      1, "", "", "", "")

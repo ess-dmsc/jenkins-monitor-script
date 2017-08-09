@@ -4,6 +4,7 @@
 chrome = 1
 
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 
 import os           # os.environ
@@ -93,7 +94,16 @@ class wallDisplay(object):
 
     def weblaunch(self, x, y, w, h, url, refreshNeeded, nusr, tusr, npwd, tpwd):
        if chrome:
-          driver = webdriver.Chrome()
+          chrome_options = Options()
+          opt_winpos = "--window-position=" + str(x) + "," + str(y)
+          opt_winsize = "--window-size=" + str(w) + "," + str(h)
+          opt_noinfobar = "--disable-infobars"
+          opt_app = "--app=" + url
+          chrome_options.add_argument(opt_winpos)
+          chrome_options.add_argument(opt_winsize)
+          chrome_options.add_argument(opt_noinfobar)
+          chrome_options.add_argument(opt_app)
+          driver = webdriver.Chrome(chrome_options=chrome_options)
        else:
           profile = webdriver.FirefoxProfile()
           ext_path = "ff_ext/"
@@ -104,8 +114,8 @@ class wallDisplay(object):
           profile.set_preference("hidenavbar.autohide", True)
           profile.set_preference("hidenavbar.hideonstart", 1)
           driver = webdriver.Firefox(profile, timeout = 100)
+          driver.set_window_position(x, y)
 
-       driver.set_window_position(x, y)
        driver.set_window_size(w, h)
        try:
           driver.get(url)
@@ -158,7 +168,7 @@ def main():
                       1, "//input[@name='login']", "mortenjc", "//input[@name='password']", paswd2)
     walldisp.register(0, "http://status.esss.se",      1, "", "", "", "")
 
-    walldisp.register(0, "https://172.17.12.31:3000/dashboard/db/new-dashboard-copy?refresh=5s&orgId=1",
+    walldisp.register(0, "https://172.17.12.31:3000/dashboard/db/cspec-rate-stats",
                       0, "//input[@name='username']", "admin", "//input[@name='password']", "admin")
     walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" ,
                       1, "//input[@name='UserName']", user, "//input[@name='Password']", paswd)

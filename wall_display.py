@@ -138,15 +138,15 @@ def main():
                 0, "//input[@name='username']", "admin", "//input[@name='password']", "admin"],
                 ["https://172.17.12.11:9000/search?q=&interval=week&rangetype=relative&relative=2592000",
                 0, "//input[@placeholder='Username']", "admin", "//input[@placeholder='Password']", "graylogadmin"],
-                ["https://jenkins.esss.dk/dm/view/Monitor%20view/",
+                ["https://jenkins.esss.dk/dm/view/Master%20monitor%20view/",
                 0, "", "", "", ""],
                 ["https://github.com/orgs/ess-dmsc/dashboard",
                 1, "//input[@name='login']", "mortenjc", "//input[@name='password']", paswd2],
                 ["http://status.esss.se",      1, "", "", "", ""],
-                #["https://172.17.12.31:3000/dashboard/db/testdata-graph-panel-last-1h",
-                #0, "//input[@name='username']", "admin", "//input[@name='password']", "admin"],
                 ["https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" ,
-                1, "//input[@name='UserName']", user, "//input[@name='Password']", paswd]
+                1, "//input[@name='UserName']", user, "//input[@name='Password']", paswd],
+                ["https://jenkins.esss.dk/dm/view/Non-master%20monitor%20view/",
+                0, "", "", "", ""]
             ]
 
     for e in conf:

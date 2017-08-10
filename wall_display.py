@@ -4,8 +4,9 @@
 chrome = 1
 
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-from selenium import webdriver
+
+import chromeconfig
+import firefoxconfig
 
 import os           # os.environ
 import time         # time.sleep
@@ -53,16 +54,7 @@ class wallDisplay(object):
         return [xo + ((n - 1) % d) * w, yo + ((n - 1) / d) * h, w - 25 , h - 75]
 
     def login(self, driver, user_xpath, pass_xpath, user_text, pass_text):
-        try:
-            username = driver.find_element_by_xpath(user_xpath)
-            password = driver.find_element_by_xpath(pass_xpath)
-            username.send_keys(Keys.CLEAR)
-            username.send_keys(user_text)
-            password.send_keys(Keys.CLEAR)
-            password.send_keys(pass_text)
-            password.send_keys(Keys.RETURN)
-        except:
-            print("find_element_by_xpath failed")
+        for i in range(2):
             try:
                 username = driver.find_element_by_xpath(user_xpath)
                 password = driver.find_element_by_xpath(pass_xpath)
@@ -71,9 +63,8 @@ class wallDisplay(object):
                 password.send_keys(Keys.CLEAR)
                 password.send_keys(pass_text)
                 password.send_keys(Keys.RETURN)
-            except Exception:
-                print("find_element_by_xpath failed twice")
-                return
+            except:
+                print("find_element_by_xpath failed: " + str(i))
 
 
 
@@ -94,29 +85,9 @@ class wallDisplay(object):
 
     def weblaunch(self, x, y, w, h, url, refreshNeeded, nusr, tusr, npwd, tpwd):
        if chrome:
-          chrome_options = Options()
-          opt_winpos = "--window-position=" + str(x) + "," + str(y)
-          opt_winsize = "--window-size=" + str(w) + "," + str(h)
-          opt_noinfobar = "--disable-infobars"
-          opt_app = "--app=" + url
-          chrome_options.add_argument(opt_winpos)
-          chrome_options.add_argument(opt_winsize)
-          chrome_options.add_argument(opt_noinfobar)
-          chrome_options.add_argument(opt_app)
-          driver = webdriver.Chrome(chrome_options=chrome_options)
+          driver = chromeconfig.set_options(url, x, y, w, h)
        else:
-          profile = webdriver.FirefoxProfile()
-          ext_path = "ff_ext/"
-          profile.add_extension(extension=ext_path + "hide_tabbar-2.1.0-fx.xpi")
-          profile.add_extension(extension=ext_path + "hidenavbar.xpi")
-          profile.set_preference("extensions.hidtb.auto_hide", True)
-          profile.set_preference("extensions.hidtb.auto_hide_one_tab", True)
-          profile.set_preference("hidenavbar.autohide", True)
-          profile.set_preference("hidenavbar.hideonstart", 1)
-          driver = webdriver.Firefox(profile, timeout = 100)
-          driver.set_window_position(x, y)
-
-       driver.set_window_size(w, h)
+          driver = firefoxconfig.set_options(x, y, w, h)
        try:
           driver.get(url)
        except Exception:
@@ -160,24 +131,30 @@ def main():
     #os.environ["DISPLAY"] = ":10.0"
     os.environ["DISPLAY"] = ":0.0"
 
-    walldisp.register(0, "https://jenkins.esss.dk/dm/view/Monitor%20view/",
-                      0, "", "", "", "")
-    walldisp.register(0, "https://172.17.12.11:9000/search?q=&interval=week&rangetype=relative&relative=2592000",
-                      1, "//input[@placeholder='Username']", "admin", "//input[@placeholder='Password']", "graylogadmin")
-    walldisp.register(0, "https://github.com/orgs/ess-dmsc/dashboard",
-                      1, "//input[@name='login']", "mortenjc", "//input[@name='password']", paswd2)
-    walldisp.register(0, "http://status.esss.se",      1, "", "", "", "")
+    conf =  [ # url, refresh, xpath_username, user, xpath_password, password,
+                ["https://172.17.12.31:3000/dashboard/db/cspec-rate-stats",
+                0, "//input[@name='username']", "admin", "//input[@name='password']", "admin"],
+                ["https://172.17.12.31:3000/dashboard/db/integration-test-kafka-cluster",
+                0, "//input[@name='username']", "admin", "//input[@name='password']", "admin"],
+                ["https://172.17.12.11:9000/search?q=&interval=week&rangetype=relative&relative=2592000",
+                0, "//input[@placeholder='Username']", "admin", "//input[@placeholder='Password']", "graylogadmin"],
+                ["https://jenkins.esss.dk/dm/view/Monitor%20view/",
+                0, "", "", "", ""],
+                ["https://github.com/orgs/ess-dmsc/dashboard",
+                1, "//input[@name='login']", "mortenjc", "//input[@name='password']", paswd2],
+                ["http://status.esss.se",      1, "", "", "", ""],
+                #["https://172.17.12.31:3000/dashboard/db/testdata-graph-panel-last-1h",
+                #0, "//input[@name='username']", "admin", "//input[@name='password']", "admin"],
+                ["https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" ,
+                1, "//input[@name='UserName']", user, "//input[@name='Password']", paswd]
+            ]
 
-    walldisp.register(0, "https://172.17.12.31:3000/dashboard/db/cspec-rate-stats",
-                      0, "//input[@name='username']", "admin", "//input[@name='password']", "admin")
-    walldisp.register(0, "https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=167&projectKey=DM&view=reporting&chart=cumulativeFlowDiagram&swimlane=287&swimlane=288&column=674&column=734&column=675&column=678&column=677&column=676" ,
-                      1, "//input[@name='UserName']", user, "//input[@name='Password']", paswd)
-    #walldisp.register(0, "https://jenkins.esss.dk/dm/view/ess-dmsc%20master/",      1, "", "", "", "")
-    #walldisp.register(0, "http://jenkins.esss.dk/dm",  1, "", "", "", "")
+    for e in conf:
+        walldisp.register(0, e[0], e[1], e[2], e[3], e[4], e[5])
 
     walldisp.launch()
     print("Entering main loop")
-    walldisp.updateloop(30)
+    walldisp.updateloop(60)
 
 if __name__ == "__main__":
     main()

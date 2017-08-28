@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from selenium import webdriver
@@ -15,7 +15,7 @@ profile.set_preference("extensions.hidtb.auto_hide_one_tab", True)
 profile.set_preference("hidenavbar.autohide", True)
 profile.set_preference("hidenavbar.hideonstart", 1)
 driver = webdriver.Firefox(profile, timeout = 100)
-driver.maximize_window()
+#driver.maximize_window()
 
 list_of_sites = []
 list_of_sites.append(["http://skytoground.org/failure.html", 7])

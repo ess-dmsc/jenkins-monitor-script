@@ -19,7 +19,7 @@ driver.maximize_window()
 
 list_of_sites = []
 list_of_sites.append(["http://skytoground.org/failure.html", 7])
-list_of_sites.append(["https://jenkins.esss.dk/dm/view/Non-master%20monitor%20view/", 90])
+list_of_sites.append(["https://jenkins.esss.dk/dm/view/Non-master%20broken%20builds%20monitor%20view/", 90])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam01/latest.jpg", 5])
 #list_of_sites.append(["http://skytoground.org/score_card.html", 20])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Master%20monitor%20view/", 90])

@@ -21,7 +21,7 @@ list_of_sites = []
 list_of_sites.append(["http://skytoground.org/upcoming_events/", 30])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Non-master%20broken%20builds%20monitor%20view/", 60])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam01/latest.jpg", 10])
-#list_of_sites.append(["http://skytoground.org/score_card.html", 20])
+list_of_sites.append(["http://skytoground.org/crime_scene/random/", 30])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Master%20monitor%20view/", 60])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam02/latest.jpg", 10])
 list_of_sites.append(["http://skytoground.org/upcoming_events/", 30])
@@ -29,6 +29,7 @@ list_of_sites.append(["https://jenkins.esss.dk/dm/view/Non-master%20broken%20bui
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam03/latest.jpg", 10])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Master%20monitor%20view/", 60])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam04/latest.jpg", 10])
+list_of_sites.append(["http://skytoground.org/crime_scene/random/", 30])
 
 driver.set_page_load_timeout(15)
 while (True):

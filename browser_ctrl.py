@@ -7,7 +7,6 @@ import time
 os.environ["DISPLAY"] = ":0.0"
 profile = webdriver.FirefoxProfile()
 ext_path = "/home/pi/jenkins-monitor-script/ff_ext/"
-#ext_path = "/Users/jonasnilsson/FF_ext/"
 profile.add_extension(extension=ext_path + "hide_tabbar-2.1.0-fx.xpi")
 profile.add_extension(extension=ext_path + "hidenavbar.xpi")
 profile.set_preference("extensions.hidtb.auto_hide", True)
@@ -18,20 +17,14 @@ driver = webdriver.Firefox(profile, timeout = 100)
 driver.maximize_window()
 
 list_of_sites = []
-list_of_sites.append(["http://skytoground.org/maxims/", 15])
-list_of_sites.append(["http://skytoground.org/upcoming_events/", 30])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Non-master%20broken%20builds%20monitor%20view/", 60])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam01/latest.jpg", 10])
-list_of_sites.append(["http://skytoground.org/crime_scene/random/", 30])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Master%20monitor%20view/", 60])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam02/latest.jpg", 10])
-list_of_sites.append(["http://skytoground.org/maxims/", 15])
-list_of_sites.append(["http://skytoground.org/upcoming_events/", 30])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Non-master%20broken%20builds%20monitor%20view/", 60])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam03/latest.jpg", 10])
 list_of_sites.append(["https://jenkins.esss.dk/dm/view/Master%20monitor%20view/", 60])
 list_of_sites.append(["https://ess-scandinavia.eu/sitecam/cam04/latest.jpg", 10])
-list_of_sites.append(["http://skytoground.org/crime_scene/random/", 30])
 
 driver.set_page_load_timeout(15)
 while (True):
